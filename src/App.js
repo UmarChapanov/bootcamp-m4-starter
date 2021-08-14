@@ -7,8 +7,6 @@ import './reset.css';
 import './common.css';
 
 class App extends React.Component {
-  console.log("App");
-  
   render() {
     return (
       <div className="app">
