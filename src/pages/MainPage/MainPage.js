@@ -8,7 +8,8 @@ import Favorites from "../../components/Favorites/Favorites";
 class MainPage extends Component {
   state = {
     movies: [],
-    myList: [],
+    myList: []
+    
   };
 
   loadMovies = async (filmName) => {
