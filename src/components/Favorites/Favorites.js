@@ -6,13 +6,10 @@ class Favorites extends Component {
   state = {
     title: "Новый список",
     buttonDisabled: "",
-    clickButton: true,
-    inputValue: "",
+    inputValue: ""
   };
 
-  hideButton = () => {
-    this.setState({ clickButton: false });
-  };
+
 
   takeInputData = (value) => {
     this.setState({ inputValue: value });
@@ -24,7 +21,7 @@ class Favorites extends Component {
       <div className="favorites">
         <input
           type="text"
-          placeholder="Введите название фильма"
+          placeholder="Введите название списка"
           className="favorites__name"
           onChange={(e) => this.takeInputData(e.target.value)}
         />
@@ -43,18 +40,19 @@ class Favorites extends Component {
             );
           })}
         </ul>
-        {this.state.clickButton && (
+        {this.props.clickButton && (
           <button
-            onClick={this.hideButton}
+            onClick={this.props.myListFilmsForSave}
             type="button"
             className="favorites__save"
+            disabled={!this.state.title}
           >
             Сохранить список
           </button>
         )}
-        {!this.state.clickButton && <a>Ссылка:</a>}
-        {!this.state.clickButton && (
-          <Link to={"/list/1"}>{this.state.inputValue}</Link>
+        {!this.props.clickButton && <a>Ссылка:</a>}
+        {!this.props.clickButton && (
+          <Link to={`/list/${this.props.servId}`}>{this.state.inputValue}</Link>
         )}
       </div>
     );

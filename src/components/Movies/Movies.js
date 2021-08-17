@@ -9,7 +9,7 @@ class Movies extends Component {
             <ul className="movies">
                 {this.props.movies.map((movie) => (
                     <li className="movies__item" key={movie.imdbID}>
-                        <MovieItem {...movie} onClick={() => this.props.addTo(movie)} />
+                        <MovieItem {...movie} addFilmList={() => this.props.addTo(movie)} />
                     </li>
                 ))}
             </ul>
