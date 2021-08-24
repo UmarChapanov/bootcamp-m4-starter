@@ -9,37 +9,37 @@ class MainPage extends Component {
   state = {
     movies: [],
     myList: [],
-    listValue: "",
-    title: " ",
+    title: "",
     clickButton: true,
-    servId: ""
+    servId: null,
   };
 
-  createNewList = async (arr,title) => {
+  changeFavoritesTitle = (e) => {
+    this.setState({
+      title: e.target.value,
+    });
+  };
+  createNewList = async () => {
     const info = {
-      title: title,
-      movies: arr
-    }
-    const response = await fetch("https://acb-api.algoritmika.org/api/movies/list",{
-      method: "POST",
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify(info)
-    })
+      title: this.state.title,
+      movies: this.state.myList.map((m) => m.imdbID),
+    };
+    const response = await fetch(
+      "https://acb-api.algoritmika.org/api/movies/list",
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(info),
+      }
+    );
     const data = await response.json();
-    return data
+    this.setState({
+      servId: data.id,
+      clickButton: false,
+    });
   };
-
-  myListFilmsForSave = () => {
-    let arr = this.state.myList.map((item)=>item.imdbID)
-    this.createNewList(arr,this.state.listValue).then((data)=>{
-      this.setState({title:this.state.listValue,clickButton: false,servId:data.id})
-    })
-    
-  }
-
-
 
   loadMovies = async (filmName) => {
     const response = await fetch(
@@ -87,10 +87,11 @@ class MainPage extends Component {
             <Favorites
               myList={this.state.myList}
               deleteFilm={this.deleteFilmFromMyList}
-              myListFilmsForSave = {this.myListFilmsForSave}
-              servId = {this.state.servId}
-              clickButton = {this.state.clickButton}
-              tittle = {this.state.title}
+              myListFilmsForSave={this.createNewList}
+              servId={this.state.servId}
+              clickButton={this.state.clickButton}
+              title={this.state.title}
+              takeInputData={this.changeFavoritesTitle}
             />
           </aside>
         </main>

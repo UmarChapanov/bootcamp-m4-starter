@@ -3,27 +3,17 @@ import "./Favorites.css";
 import { Link } from "react-router-dom";
 
 class Favorites extends Component {
-  state = {
-    title: "Новый список",
-    buttonDisabled: "",
-    inputValue: ""
-  };
-
-
-
-  takeInputData = (value) => {
-    this.setState({ inputValue: value });
-    console.log(this.setState.inputValue);
-  };
-
   render() {
     return (
       <div className="favorites">
         <input
+          value={this.props.title}
           type="text"
           placeholder="Введите название списка"
           className="favorites__name"
-          onChange={(e) => this.takeInputData(e.target.value)}
+          // onChange={(e) => this.takeInputData(e.target.value)}
+          onChange={this.props.takeInputData}
+          disabled={this.props.servId}
         />
         <ul className="favorites__list">
           {this.props.myList.map((item) => {
@@ -45,14 +35,14 @@ class Favorites extends Component {
             onClick={this.props.myListFilmsForSave}
             type="button"
             className="favorites__save"
-            disabled={!this.state.title}
+            disabled={!this.props.title}
           >
             Сохранить список
           </button>
         )}
         {!this.props.clickButton && <a>Ссылка:</a>}
         {!this.props.clickButton && (
-          <Link to={`/list/${this.props.servId}`}>{this.state.inputValue}</Link>
+          <Link to={`/list/${this.props.servId}`}>{this.props.title}</Link>
         )}
       </div>
     );
